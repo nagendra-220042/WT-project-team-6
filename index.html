@@ -1,0 +1,288 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sanjeevani Hospital</title>
+      <link rel="icon" type="image/png" href="resources\logo1.png">
+
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+    <meta property="og:image" content="https://bolt.new/static/og_default.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="https://bolt.new/static/og_default.png">
+</head>
+  <body>
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <!-- Left Side: Brand Logo -->
+        <div class="brand">
+          <i class="fas fa-heartbeat"></i>
+          <span><img src="resources\logo.png" width="250px" style="border-radius: 50px;"></span>
+        </div>
+
+        <!-- Right Side: Navigation Menu -->
+        <ul class="nav-menu">
+          <li><a href="#" data-page="home" class="nav-link active">Home</a></li>
+          <li><a href="find-doctor.html" data-page="find-doctor" class="nav-link">Find a Doctor</a></li>
+          <li><a href="book-appointment.html" data-page="book-appointment" class="nav-link">Book an Appointment</a></li>
+          <li><a href="login.html" data-page="login" class="nav-link login-btn">Login / Signup</a></li>
+        </ul>
+
+        <!-- Mobile Menu Toggle -->
+        <div class="mobile-menu-toggle">
+          <i class="fas fa-bars"></i>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <main id="main-content">
+       <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-container">
+        <div class="hero-content">
+          <h1 class="hero-title fade-in">Your Health, Our Priority</h1>
+          <p class="hero-subtitle fade-in-delay">Experience world-class healthcare with compassionate care and cutting-edge technology</p>
+          <div class="hero-buttons fade-in-delay-2">
+            <button class="btn btn-primary" data-page="book-appointment">Book Appointment</button>
+            <button class="btn btn-secondary" data-page="find-doctor">Find a Doctor</button>
+          </div>
+        </div>
+        <div class="hero-image">
+          <img src="https://images.pexels.com/photos/4386467/pexels-photo-4386467.jpeg?auto=compress&cs=tinysrgb&w=800" alt="Healthcare" class="float-animation">
+        </div>
+      </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services-section">
+      <div class="section-container">
+        <h2 class="section-title">Our Services</h2>
+        <p class="section-subtitle">Comprehensive healthcare services for you and your family</p>
+
+        <div class="services-grid">
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fas fa-stethoscope"></i>
+            </div>
+            <h3>Primary Care</h3>
+            <p>Complete primary healthcare services with experienced general physicians</p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fas fa-heartbeat"></i>
+            </div>
+            <h3>Cardiology</h3>
+            <p>Advanced cardiac care with state-of-the-art diagnostic facilities</p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fas fa-brain"></i>
+            </div>
+            <h3>Neurology</h3>
+            <p>Expert neurological care for brain and nervous system disorders</p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fas fa-bone"></i>
+            </div>
+            <h3>Orthopedics</h3>
+            <p>Comprehensive bone and joint care with advanced surgical options</p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fas fa-baby"></i>
+            </div>
+            <h3>Pediatrics</h3>
+            <p>Specialized care for infants, children, and adolescents</p>
+          </div>
+
+          <div class="service-card">
+            <div class="service-icon">
+              <i class="fas fa-x-ray"></i>
+            </div>
+            <h3>Radiology</h3>
+            <p>Advanced imaging services including MRI, CT scan, and X-ray</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Doctors Section -->
+    <section class="featured-doctors-section">
+      <div class="section-container">
+        <h2 class="section-title">Our Expert Doctors</h2>
+        <p class="section-subtitle">Meet our team of highly qualified medical professionals</p>
+
+        <div class="doctors-grid">
+          <div class="doctor-card">
+            <div class="doctor-image">
+              <img src="https://images.pexels.com/photos/5215024/pexels-photo-5215024.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Dr. Rajesh Kumar">
+            </div>
+            <div class="doctor-info">
+              <h3>Dr. Rajesh Kumar</h3>
+              <p class="specialization">Cardiologist</p>
+              <p class="experience">15+ Years Experience</p>
+              <button class="btn btn-small" data-page="find-doctor">View Profile</button>
+            </div>
+          </div>
+
+          <div class="doctor-card">
+            <div class="doctor-image">
+              <img src="https://images.pexels.com/photos/5327585/pexels-photo-5327585.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Dr. Priya Sharma">
+            </div>
+            <div class="doctor-info">
+              <h3>Dr. Priya Sharma</h3>
+              <p class="specialization">Pediatrician</p>
+              <p class="experience">12+ Years Experience</p>
+              <button class="btn btn-small" data-page="find-doctor">View Profile</button>
+            </div>
+          </div>
+
+          <div class="doctor-card">
+            <div class="doctor-image">
+              <img src="https://images.pexels.com/photos/5452293/pexels-photo-5452293.jpeg?auto=compress&cs=tinysrgb&w=400" alt="Dr. Amit Patel">
+            </div>
+            <div class="doctor-info">
+              <h3>Dr. Amit Patel</h3>
+              <p class="specialization">Orthopedic Surgeon</p>
+              <p class="experience">18+ Years Experience</p>
+              <button class="btn btn-small" data-page="find-doctor">View Profile</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Why Choose Us Section -->
+    <section class="why-choose-section">
+      <div class="section-container">
+        <h2 class="section-title">Why Choose Sanjeevani Hospital?</h2>
+        <p class="section-subtitle">We are committed to providing the best healthcare experience</p>
+
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-user-md"></i>
+            </div>
+            <h3>Expert Doctors</h3>
+            <p>Highly qualified and experienced medical professionals</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-hospital"></i>
+            </div>
+            <h3>Modern Facilities</h3>
+            <p>State-of-the-art medical equipment and infrastructure</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-clock"></i>
+            </div>
+            <h3>24/7 Emergency</h3>
+            <p>Round-the-clock emergency services available</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-hand-holding-medical"></i>
+            </div>
+            <h3>Affordable Care</h3>
+            <p>Quality healthcare at reasonable prices</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-ambulance"></i>
+            </div>
+            <h3>Ambulance Service</h3>
+            <p>Quick and efficient emergency ambulance service</p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">
+              <i class="fas fa-shield-alt"></i>
+            </div>
+            <h3>Insurance Support</h3>
+            <p>We accept all major health insurance plans</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="cta-section">
+      <div class="cta-container">
+        <h2>Need Medical Assistance?</h2>
+        <p>Book an appointment with our expert doctors today</p>
+        <button class="btn btn-large btn-white" data-page="book-appointment">Book Appointment Now</button>
+      </div>
+    </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-section">
+          <h3><i class="fas fa-heartbeat"></i> Sanjeevani Hospital</h3>
+          <p>Your Health, Our Priority</p>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-facebook"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-instagram"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+          </div>
+        </div>
+
+        <div class="footer-section">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="#" data-page="home">Home</a></li>
+            <li><a href="#" data-page="find-doctor">Find a Doctor</a></li>
+            <li><a href="#" data-page="book-appointment">Book Appointment</a></li>
+            <li><a href="#" data-page="login">Login</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Contact Info</h4>
+          <ul>
+            <li><i class="fas fa-phone"></i> +91 123-456-7890</li>
+            <li><i class="fas fa-envelope"></i> info@sanjeevani.com</li>
+            <li><i class="fas fa-map-marker-alt"></i> Mumbai, Maharashtra</li>
+          </ul>
+        </div>
+
+        <div class="footer-section">
+          <h4>Working Hours</h4>
+          <ul>
+            <li>Monday - Friday: 8:00 AM - 8:00 PM</li>
+            <li>Saturday: 9:00 AM - 5:00 PM</li>
+            <li>Sunday: Emergency Only</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2024 Sanjeevani Hospital. All Rights Reserved.</p>
+      </div>
+    </footer>
+
+    <script type="module" src="/main.js"></script>
+  </body>
+</html>

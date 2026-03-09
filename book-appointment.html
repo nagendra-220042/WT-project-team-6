@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Book Appointment - Sanjeevani Hospital</title>
+  <link rel="icon" type="image/png" href="resources\logo1.png">
+
+  <link rel="stylesheet" href="styles.css">
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="container navbar-content">
+      <a href="index.html" class="brand">
+        <i class="fas fa-heartbeat"></i>
+       <span><img src="resources\logo.png" width="250px" style="border-radius: 50px;"></span>
+      </a>
+
+      <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+        <i class="fas fa-bars"></i>
+      </button>
+
+      <ul class="nav-menu">
+        <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
+        <li><a href="find-doctor.html"><i class="fas fa-user-md"></i> Find a Doctor</a></li>
+        <li><a href="book-appointment.html"><i class="fas fa-calendar-check"></i> Book Appointment</a></li>
+        <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login / Signup</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="section">
+    <div class="container">
+      <h1 class="section-title">Book an Appointment</h1>
+      <p class="section-subtitle">Fill in the details below to schedule your appointment</p>
+
+      <div style="max-width: 700px; margin: 0 auto;">
+        <div class="card">
+          <div id="alertMessage" class="alert"></div>
+
+          <form id="appointmentForm">
+            <div class="form-group">
+              <label class="form-label" for="patientName">
+                <i class="fas fa-user"></i> Patient Name *
+              </label>
+              <input
+                type="text"
+                id="patientName"
+                class="form-control"
+                placeholder="Enter your full name"
+                required
+              >
+            </div>
+
+            <div class="grid grid-2" style="gap: 1rem;">
+              <div class="form-group">
+                <label class="form-label" for="age">
+                  <i class="fas fa-calendar"></i> Age *
+                </label>
+                <input
+                  type="number"
+                  id="age"
+                  class="form-control"
+                  placeholder="Your age"
+                  min="1"
+                  max="120"
+                  required
+                >
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="gender">
+                  <i class="fas fa-venus-mars"></i> Gender *
+                </label>
+                <select id="gender" class="form-control" required>
+                  <option value="">Select Gender</option>
+                  <option value="Male">Male</option>
+                  <option value="Female">Female</option>
+                  <option value="Other">Other</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="phone">
+                <i class="fas fa-phone"></i> Phone Number *
+              </label>
+              <input
+                type="tel"
+                id="phone"
+                class="form-control"
+                placeholder="Enter your phone number"
+                pattern="[0-9]{10}"
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="email">
+                <i class="fas fa-envelope"></i> Email Address *
+              </label>
+              <input
+                type="email"
+                id="email"
+                class="form-control"
+                placeholder="Enter your email"
+                required
+              >
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="problem">
+                <i class="fas fa-notes-medical"></i> Disease / Problem *
+              </label>
+              <textarea
+                id="problem"
+                class="form-control"
+                placeholder="Describe your health concern"
+                rows="4"
+                required
+              ></textarea>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="doctor">
+                <i class="fas fa-user-md"></i> Select Doctor *
+              </label>
+              <select id="doctor" class="form-control" required>
+                <option value="">Choose a Doctor</option>
+                <option value="Dr. Rajesh Kumar">Dr. Rajesh Kumar - Cardiologist</option>
+                <option value="Dr. Priya Sharma">Dr. Priya Sharma - Pediatrician</option>
+                <option value="Dr. Amit Patel">Dr. Amit Patel - Orthopedic</option>
+                <option value="Dr. Sneha Reddy">Dr. Sneha Reddy - Dermatologist</option>
+                <option value="Dr. Vikram Singh">Dr. Vikram Singh - Neurologist</option>
+                <option value="Dr. Anjali Mehta">Dr. Anjali Mehta - Gynecologist</option>
+              </select>
+            </div>
+
+            <div class="grid grid-2" style="gap: 1rem;">
+              <div class="form-group">
+                <label class="form-label" for="date">
+                  <i class="fas fa-calendar-alt"></i> Preferred Date *
+                </label>
+                <input
+                  type="date"
+                  id="date"
+                  class="form-control"
+                  min="2026-03-08"
+                  required
+                >
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="time">
+                  <i class="fas fa-clock"></i> Preferred Time *
+                </label>
+                <select id="time" class="form-control" required>
+                  <option value="">Select Time</option>
+                  <option value="9:00 AM">9:00 AM</option>
+                  <option value="10:00 AM">10:00 AM</option>
+                  <option value="11:00 AM">11:00 AM</option>
+                  <option value="12:00 PM">12:00 PM</option>
+                  <option value="2:00 PM">2:00 PM</option>
+                  <option value="3:00 PM">3:00 PM</option>
+                  <option value="4:00 PM">4:00 PM</option>
+                  <option value="5:00 PM">5:00 PM</option>
+                </select>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+              <i class="fas fa-check-circle"></i> Book Appointment
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <p>&copy; 2026 Sanjeevani Hospital. All rights reserved.</p>
+      <p style="margin-top: 0.5rem;">
+        <i class="fas fa-phone"></i> +91 1800-123-4567 |
+        <i class="fas fa-envelope"></i> contact@sanjeevanihospital.com
+      </p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
