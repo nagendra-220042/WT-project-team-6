@@ -49,7 +49,7 @@
         </div>
       </div>
 
-      <form id="loginForm" action="admin-dashboard.html">
+      <form id="loginForm" action="admin_login.php" method="POST">
         <div class="form-group">
           <label class="form-label" for="admin-id">
             <i class="fas fa-user"></i> 
@@ -58,6 +58,7 @@
           <input
             type="text"
             id="admin-id"
+            name="admin_id"
             class="form-control"
             placeholder="Enter your admin id"
             required
@@ -72,6 +73,7 @@
           <input
             type="password"
             id="password"
+            name="password"
             class="form-control"
             placeholder="Enter your password"
             required

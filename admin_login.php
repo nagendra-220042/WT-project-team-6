@@ -1,3 +1,14 @@
+<?php
+include "db.php";
+
+$admin_id = $_POST['admin_id'];
+$password = $_POST['password'];
+
+$sql = "SELECT * FROM admin WHERE admin_id='$admin_id' AND password='$password'";
+$result = $conn->query($sql);
+
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -26,8 +37,8 @@
       <ul class="nav-menu">
         <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
         <li><a href="find-doctor.html"><i class="fas fa-user-md"></i> Doctors</a></li>
-        <li><a href="admin-login.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-        <!-- <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li> -->
+        <li><a href="admin-dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
       </ul>
     </div>
   </nav>
@@ -36,7 +47,16 @@
     <div class="container">
       <div class="dashboard-header">
         <h1 class="dashboard-title">
-          <i class="fas fa-user-shield"></i> Admin Dashboard
+          <i class="fas fa-user-shield"></i> 
+          <?php
+                if($result->num_rows > 0){
+                    echo "Welcome ".$admin_id;
+                
+            }else{
+                // header("Location:admin-login.html");
+                echo "you are not a admin";
+            }
+          ?>
         </h1>
         <p>Manage hospital operations and monitor activities</p>
       </div>
@@ -44,19 +64,34 @@
       <div class="stats-grid">
         <div class="stat-card">
           <i class="fas fa-users" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
-          <div class="stat-value" id="totalPatients">0</div>
+          <div class="stat-value" id="totalPatients">
+              <?php
+                $total_patients = $conn->query("SELECT COUNT(*) as total FROM Patients")->fetch_assoc()['total'];
+                echo $total_patients;
+              ?>
+          </div>
           <div class="stat-label">Total Patients</div>
         </div>
 
         <div class="stat-card">
           <i class="fas fa-user-md" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
-          <div class="stat-value" id="totalDoctors">0</div>
+          <div class="stat-value" id="totalDoctors">
+              <?php
+                $total_doctors = $conn->query("SELECT COUNT(*) as total FROM Doctors")->fetch_assoc()['total'];
+                echo $total_doctors;
+              ?>
+          </div>
           <div class="stat-label">Total Doctors</div>
         </div>
 
         <div class="stat-card">
           <i class="fas fa-calendar-check" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
-          <div class="stat-value" id="totalAppointments">0</div>
+          <div class="stat-value" id="totalAppointments">
+              <?php
+                $total_appointments = $conn->query("SELECT COUNT(*) as total FROM Appointments")->fetch_assoc()['total'];
+                echo $total_appointments;
+              ?>
+          </div>
           <div class="stat-label">Total Appointments</div>
         </div>
 
@@ -72,45 +107,66 @@
           <h2 style="margin-bottom: 1.5rem; color: var(--text-dark);">
             <i class="fas fa-users"></i> Patient Records
           </h2>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Age</th>
-                <th>Gender</th>
-                <th>Phone</th>
-                <th>Blood Group</th>
-                <th>Last Visit</th>
-              </tr>
-            </thead>
-            <tbody id="patientsTableBody">
-              <tr>
-                <td colspan="6" style="text-align: center;">Loading...</td>
-              </tr>
-            </tbody>
-          </table>
+          <?php
+                         $sql = "SELECT name, age, gender, phone, email FROM Patients";
+                $result = $conn->query($sql);
+
+                echo "<table border='1' cellpadding='10'>";
+                echo "<tr>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>Gender</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                      </tr>";
+
+                if ($result->num_rows > 0) {
+                    while($row = $result->fetch_assoc()) {
+                        echo "<tr>";
+                        echo "<td>".$row["name"]."</td>";
+                        echo "<td>".$row["age"]."</td>";
+                        echo "<td>".$row["gender"]."</td>";
+                        echo "<td>".$row["phone"]."</td>";
+                        echo "<td>".$row["email"]."</td>";
+                        echo "</tr>";
+                    }
+                } else {
+                    echo "<tr><td colspan='5'>No patients found</td></tr>";
+                }
+
+                echo "</table>";
+        ?>
         </div>
 
         <div class="table-container">
           <h2 style="margin-bottom: 1.5rem; color: var(--text-dark);">
             <i class="fas fa-calendar-alt"></i> Appointment List
           </h2>
-          <table class="table">
-            <thead>
-              <tr>
-                <th>Patient Name</th>
-                <th>Doctor</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="appointmentsTableBody">
-              <tr>
-                <td colspan="5" style="text-align: center;">Loading...</td>
-              </tr>
-            </tbody>
-          </table>
+          <?php
+                        $sql = "SELECT * FROM Appointments ORDER BY appointment_date ASC";
+            $result = $conn->query($sql);
+
+            echo "<table border='1' cellpadding='10'>";
+            echo "<tr>
+                    <th>Patient Name</th>
+                    <th>Doctor Name</th>
+                    <th>Appointment Date</th>
+                    <th>Appointment Time</th>
+                    <th>Disease</th>
+                  </tr>";
+
+            while($row = $result->fetch_assoc()){
+                echo "<tr>";
+                echo "<td>".$row['patient_name']."</td>";
+                echo "<td>".$row['doctor_name']."</td>";
+                echo "<td>".$row['appointment_date']."</td>";
+                echo "<td>".$row['appointment_time']."</td>";
+                echo "<td>".$row['disease']."</td>";
+                echo "</tr>";
+            }
+
+            echo "</table>";
+          ?>
         </div>
 
         <div class="card">
