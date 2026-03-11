@@ -65,7 +65,7 @@ $sql = "INSERT INTO Patients (name, age, gender, phone, email)
                         echo "Error: " . $conn->error;
                 }
 
-                    $conn->close();
+                    
             ?>
         </span></h1>
         <p>Manage your appointments and view your medical records</p>
@@ -74,7 +74,15 @@ $sql = "INSERT INTO Patients (name, age, gender, phone, email)
       <div class="stats-grid">
         <div class="stat-card">
           <i class="fas fa-calendar-check" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
-          <div class="stat-value" id="totalAppointments">0</div>
+          <div class="stat-value" id="totalAppointments">
+            <?php
+              // Query to count appointments
+              $count_sql = "SELECT COUNT(*) AS total FROM Appointments WHERE patient_name='$name'";
+              $count_result = $conn->query($count_sql);
+              $count_row = $count_result->fetch_assoc();
+              echo $count_row['total'];
+            ?>
+          </div>
           <div class="stat-label">Total Appointments</div>
         </div>
 
@@ -103,22 +111,42 @@ $sql = "INSERT INTO Patients (name, age, gender, phone, email)
             <i class="fas fa-calendar-alt"></i> My Appointments
           </h2>
           <div class="table-container" style="padding: 0; box-shadow: none;">
-            <table class="table">
-              <thead>
-                <tr>
-                  <th>Doctor</th>
-                  <th>Date</th>
-                  <th>Time</th>
-                  <th>Problem</th>
-                  <th>Status</th>
-                </tr>
-              </thead>
-              <tbody id="appointmentsTableBody">
-                <tr>
-                  <td colspan="5" style="text-align: center;">Loading...</td>
-                </tr>
-              </tbody>
-            </table>
+            <?php
+            // Query to get appointment details
+                  $sql = "SELECT patient_name, phone, doctor_name, appointment_date, appointment_time, disease
+                          FROM Appointments
+                          WHERE patient_name='$name'";
+
+                  $result = $conn->query($sql);
+
+
+                  echo "<table border='1' cellpadding='10' class='table'>";
+
+                  echo "<tr>
+                          <th>Patient Name</th>
+                          <th>Phone</th>
+                          <th>Doctor Name</th>
+                          <th>Appointment Date</th>
+                          <th>Appointment Time</th>
+                          <th>Disease</th>
+                        </tr>";
+
+                  while($row = $result->fetch_assoc()){
+
+                      echo "<tr>
+                              <td>".$row['patient_name']."</td>
+                              <td>".$row['phone']."</td>
+                              <td>".$row['doctor_name']."</td>
+                              <td>".$row['appointment_date']."</td>
+                              <td>".$row['appointment_time']."</td>
+                              <td>".$row['disease']."</td>
+                            </tr>";
+                  }
+
+                  echo "</table>";
+
+                  $conn->close();
+            ?>
           </div>
           <div style="margin-top: 1.5rem;">
             <a href="book-appointment.html" class="btn btn-primary">
