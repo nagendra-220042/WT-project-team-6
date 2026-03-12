@@ -108,11 +108,12 @@ $result = $conn->query($sql);
             <i class="fas fa-users"></i> Patient Records
           </h2>
           <?php
-                         $sql = "SELECT name, age, gender, phone, email FROM Patients";
+                         $sql = "SELECT patient_id,name, age, gender, phone, email FROM Patients";
                 $result = $conn->query($sql);
 
                 echo "<table border='1' cellpadding='10'>";
                 echo "<tr>
+                        <th>Patient ID</th>
                         <th>Name</th>
                         <th>Age</th>
                         <th>Gender</th>
@@ -123,11 +124,17 @@ $result = $conn->query($sql);
                 if ($result->num_rows > 0) {
                     while($row = $result->fetch_assoc()) {
                         echo "<tr>";
+                        echo "<td>".$row["patient_id"]."</td>";
                         echo "<td>".$row["name"]."</td>";
                         echo "<td>".$row["age"]."</td>";
                         echo "<td>".$row["gender"]."</td>";
                         echo "<td>".$row["phone"]."</td>";
                         echo "<td>".$row["email"]."</td>";
+                        echo "<td>
+                        <a href='delete_patient.php?id=".$row['patient_id']."'>
+                        <button>Delete</button>
+                        </a>
+                              </td>";
                         echo "</tr>";
                     }
                 } else {
@@ -162,11 +169,56 @@ $result = $conn->query($sql);
                 echo "<td>".$row['appointment_date']."</td>";
                 echo "<td>".$row['appointment_time']."</td>";
                 echo "<td>".$row['disease']."</td>";
+                 echo "<td>
+                        <a href='delete_appointment.php?id=".$row['appointment_id']."'>
+                        <button>Delete</button>
+                        </a>
+                              </td>";
                 echo "</tr>";
             }
 
             echo "</table>";
           ?>
+        </div>
+         <div class="table-container">
+          <h2 style="margin-bottom: 1.5rem; color: var(--text-dark);">
+            <i class="fas fa-calendar-alt"></i> Doctors
+          </h2>
+          <?php
+                $sql = "SELECT * FROM Doctors";
+              $result = $conn->query($sql);
+
+            echo "<table border='1' cellpadding='10'>";
+            echo "<tr>
+                    <th>Doctor ID</th>
+                    <th>Doctor Name</th>
+                    <th>speciality</th>
+                    <th>Experience</th>
+                  </tr>";
+
+             while($row = $result->fetch_assoc()){
+              echo "<tr>
+              <td>".$row['did']."</td>
+              <td>".$row['name']."</td>
+              <td>".$row['speciality']."</td>
+              <td>".$row['experience']."</td>
+              <td>
+                        <a href='delete_doctor.php?id=".$row['did']."'>
+                        <button>Delete</button>
+                        </a>
+              </td>
+              </tr>";
+          
+            }
+
+            echo "</table>";
+          ?>
+          <form action="add_doctor.php" method="POST">
+          <input type="text" name="name" placeholder="Doctor Name" required>
+          <input type="text" name="speciality" placeholder="Speciality" required>
+          <input type="number" name="experience" placeholder="Experience (Years)" required>
+          <button type="submit">Add Doctor</button>
+        </form>
         </div>
 
         <div class="card">
