@@ -1,0 +1,57 @@
+CREATE DATABASE hospital_db;
+USE hospital_db;
+
+CREATE TABLE Doctors (
+    did INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    speciality VARCHAR(100),
+    experience INT
+);
+CREATE TABLE Patients (
+    patient_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100),
+    age INT,
+    gender VARCHAR(10),
+    phone VARCHAR(15),
+    email VARCHAR(100),
+);
+CREATE TABLE Appointments (
+    appointment_id INT AUTO_INCREMENT PRIMARY KEY,
+    patient_name VARCHAR(100),
+    phone VARCHAR(15),
+    doctor_id INT,
+    doctor_name VARCHAR(100),
+    appointment_date DATE,
+    appointment_time TIME,
+    disease VARCHAR(100),
+    FOREIGN KEY (doctor_id) REFERENCES Doctors(did)
+);
+CREATE TABLE Admin (
+    sno INT AUTO_INCREMENT PRIMARY KEY,
+    admin_id VARCHAR(50),
+    password VARCHAR(100)
+);
+
+INSERT INTO Doctors (name, speciality, experience) VALUES
+('Dr. Ravi Kumar', 'Cardiologist', 10),
+('Dr. Sneha Reddy', 'Dermatologist', 7),
+('Dr. Arjun Rao', 'Orthopedic', 12),
+('Dr. Priya Sharma', 'Neurologist', 9);
+
+INSERT INTO Patients (name, age, gender, phone, email) VALUES
+('Rahul', 25, 'Male', '9876543210', 'rahul@gmail.com'),
+('Anjali', 30, 'Female', '9123456780', 'anjali@gmail.com'),
+('Suresh', 40, 'Male', '9988776655', 'suresh@gmail.com'),
+('Lakshmi', 35, 'Female', '9012345678', 'lakshmi@gmail.com');
+
+INSERT INTO Appointments 
+(patient_name, phone, doctor_id, doctor_name, appointment_date, appointment_time, disease) 
+VALUES
+('Rahul', '9876543210', 1, 'Dr. Ravi Kumar', '2026-03-10', '10:00:00', 'Fever'),
+('Anjali', '9123456780', 2, 'Dr. Sneha Reddy', '2026-03-11', '11:30:00', 'Skin Allergy'),
+('Suresh', '9988776655', 3, 'Dr. Arjun Rao', '2026-03-12', '09:15:00', 'Back Pain'),
+('Lakshmi', '9012345678', 4, 'Dr. Priya Sharma', '2026-03-13', '02:00:00', 'Migraine');
+
+INSERT INTO Admin (admin_id, password) VALUES
+('admin1', 'admin123'),
+('admin2', 'hospital456');
