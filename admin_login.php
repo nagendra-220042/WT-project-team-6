@@ -38,7 +38,6 @@ $result = $conn->query($sql);
         <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
         <li><a href="find-doctor.html"><i class="fas fa-user-md"></i> Doctors</a></li>
         <li><a href="admin-dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
-        <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
       </ul>
     </div>
   </nav>
@@ -97,7 +96,18 @@ $result = $conn->query($sql);
 
         <div class="stat-card">
           <i class="fas fa-calendar-day" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
-          <div class="stat-value" id="todayAppointments">0</div>
+          <div class="stat-value" id="todayAppointments">
+            <?php
+                  $today = date("Y-m-d");
+
+              $sql_today = "SELECT COUNT(*) AS today_total FROM Appointments WHERE appointment_date = '$today'";
+              $result_today = $conn->query($sql_today);
+              $row_today = $result_today->fetch_assoc();
+
+              $todayAppointments = $row_today['today_total'];
+              echo $todayAppointments;
+            ?>
+          </div>
           <div class="stat-label">Today's Appointments</div>
         </div>
       </div>

@@ -47,7 +47,6 @@ $phone = $_POST['phone'];
         <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
         <li><a href="find-doctor.html"><i class="fas fa-user-md"></i> Find a Doctor</a></li>
         <li><a href="book-appointment.html"><i class="fas fa-calendar-check"></i> Book Appointment</a></li>
-        <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
       </ul>
     </div>
   </nav>
@@ -90,7 +89,18 @@ $phone = $_POST['phone'];
 
         <div class="stat-card">
           <i class="fas fa-clock" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
-          <div class="stat-value" id="upcomingAppointments">0</div>
+          <div class="stat-value" id="upcomingAppointments">
+            <?php
+                  $today = date("Y-m-d");
+
+              $sql_upcoming = "SELECT COUNT(*) AS upcoming_total FROM Appointments WHERE patient_name='$name' and appointment_date != '$today'";
+              $result_upcoming = $conn->query($sql_upcoming);
+              $row_upcoming = $result_upcoming->fetch_assoc();
+
+              $upcomnigAppointments = $row_upcoming['upcoming_total'];
+              echo $upcomnigAppointments;
+            ?>
+            </div>
           <div class="stat-label">Upcoming Appointments</div>
         </div>
 
