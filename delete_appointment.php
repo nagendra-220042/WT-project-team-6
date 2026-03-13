@@ -1,15 +1,15 @@
 <?php
+
 include "db.php";
 
-$appointment_id = $_GET['id'];
+$ap_id = $_POST['appointment_id'];
 
-$sql = "DELETE FROM Appointments WHERE appointment_id='$appointment_id'";
+$sql = "DELETE FROM appointments WHERE appointment_id='$ap_id'";
 
-if($conn->query($sql) === TRUE){
-    header("Location:admin_login.php");
-    exit();
+if($conn->query($sql)){
+echo "Appointment deleted successfully";
+}else{
+echo "Error: ".$conn->error;
 }
-else{
-    echo "Error deleting appointment";
-}
+
 ?>

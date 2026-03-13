@@ -107,118 +107,75 @@ $result = $conn->query($sql);
           <h2 style="margin-bottom: 1.5rem; color: var(--text-dark);">
             <i class="fas fa-users"></i> Patient Records
           </h2>
-          <?php
-                         $sql = "SELECT patient_id,name, age, gender, phone, email FROM Patients";
-                $result = $conn->query($sql);
+        
+                        
+            <table border="1">
 
-                echo "<table border='1' cellpadding='10'>";
-                echo "<tr>
-                        <th>Patient ID</th>
-                        <th>Name</th>
-                        <th>Age</th>
-                        <th>Gender</th>
-                        <th>Phone</th>
-                        <th>Email</th>
-                      </tr>";
+          <thead>
+          <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Speciality</th>
+          <th>Experience</th>
+          <th>Action</th>
+          </tr>
+          </thead>
 
-                if ($result->num_rows > 0) {
-                    while($row = $result->fetch_assoc()) {
-                        echo "<tr>";
-                        echo "<td>".$row["patient_id"]."</td>";
-                        echo "<td>".$row["name"]."</td>";
-                        echo "<td>".$row["age"]."</td>";
-                        echo "<td>".$row["gender"]."</td>";
-                        echo "<td>".$row["phone"]."</td>";
-                        echo "<td>".$row["email"]."</td>";
-                        echo "<td>
-                        <a href='delete_patient.php?id=".$row['patient_id']."'>
-                        <button>Delete</button>
-                        </a>
-                              </td>";
-                        echo "</tr>";
-                    }
-                } else {
-                    echo "<tr><td colspan='5'>No patients found</td></tr>";
-                }
+          <tbody id="patientTable"></tbody>
 
-                echo "</table>";
-        ?>
+          </table>
+      
         </div>
 
         <div class="table-container">
           <h2 style="margin-bottom: 1.5rem; color: var(--text-dark);">
             <i class="fas fa-calendar-alt"></i> Appointment List
           </h2>
-          <?php
-                        $sql = "SELECT * FROM Appointments ORDER BY appointment_date ASC";
-            $result = $conn->query($sql);
+           <table border="1">
 
-            echo "<table border='1' cellpadding='10'>";
-            echo "<tr>
-                    <th>Patient Name</th>
-                    <th>Doctor Name</th>
-                    <th>Appointment Date</th>
-                    <th>Appointment Time</th>
-                    <th>Disease</th>
-                  </tr>";
+          <thead>
+          <tr>
+            <th>Appointment ID</th>
+          <th>Patient Name</th>
+          <th>Doctor Name</th>
+          <th>Appointment Date</th>
+          <th>Appointment Time</th>
+          <th>Disease</th>
+          </tr>
+          </thead>
 
-            while($row = $result->fetch_assoc()){
-                echo "<tr>";
-                echo "<td>".$row['patient_name']."</td>";
-                echo "<td>".$row['doctor_name']."</td>";
-                echo "<td>".$row['appointment_date']."</td>";
-                echo "<td>".$row['appointment_time']."</td>";
-                echo "<td>".$row['disease']."</td>";
-                 echo "<td>
-                        <a href='delete_appointment.php?id=".$row['appointment_id']."'>
-                        <button>Delete</button>
-                        </a>
-                              </td>";
-                echo "</tr>";
-            }
+          <tbody id="appointmentTable"></tbody>
 
-            echo "</table>";
-          ?>
+          </table>
         </div>
          <div class="table-container">
           <h2 style="margin-bottom: 1.5rem; color: var(--text-dark);">
             <i class="fas fa-calendar-alt"></i> Doctors
           </h2>
-          <?php
-                $sql = "SELECT * FROM Doctors";
-              $result = $conn->query($sql);
-
-            echo "<table border='1' cellpadding='10'>";
-            echo "<tr>
-                    <th>Doctor ID</th>
-                    <th>Doctor Name</th>
-                    <th>speciality</th>
-                    <th>Experience</th>
-                  </tr>";
-
-             while($row = $result->fetch_assoc()){
-              echo "<tr>
-              <td>".$row['did']."</td>
-              <td>".$row['name']."</td>
-              <td>".$row['speciality']."</td>
-              <td>".$row['experience']."</td>
-              <td>
-                        <a href='delete_doctor.php?id=".$row['did']."'>
-                        <button>Delete</button>
-                        </a>
-              </td>
-              </tr>";
           
-            }
+          <table border="1">
 
-            echo "</table>";
-          ?>
-          <form action="add_doctor.php" method="POST">
-          <input type="text" name="name" placeholder="Doctor Name" required>
-          <input type="text" name="speciality" placeholder="Speciality" required>
-          <input type="number" name="experience" placeholder="Experience (Years)" required>
-          <button type="submit">Add Doctor</button>
-        </form>
+          <thead>
+          <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Speciality</th>
+          <th>Experience</th>
+          <th>Action</th>
+          </tr>
+          </thead>
+
+          <tbody id="doctorTable"></tbody>
+
+          </table>
+        
+        <input type="text" id="name" placeholder="Doctor Name">
+
+        <input type="text" id="speciality" placeholder="Speciality">
+
+        <input type="number" id="experience" placeholder="Experience">
+
+        <button onclick="addDoctor()">Add Doctor</button>
         </div>
 
         <div class="card">
@@ -302,7 +259,146 @@ $result = $conn->query($sql);
       </p>
     </div>
   </footer>
+  <script>
 
+
+
+    // <================patients functions==================>
+
+
+function loadPatients(){
+
+fetch("get_Patients.php")
+.then(res=>res.text())
+.then(data=>{
+document.getElementById("patientTable").innerHTML=data;
+});
+
+}
+
+function deletePatient(id){
+
+fetch("delete_patient.php",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+
+body:"patient_id="+id
+
+})
+.then(res=>res.text())
+.then(data=>{
+alert(data);
+loadPatients();
+});
+
+}
+
+
+    // <================appointments functions==================>
+
+function loadAppointments(){
+
+fetch("get_Appointments.php")
+.then(res=>res.text())
+.then(data=>{
+document.getElementById("appointmentTable").innerHTML=data;
+});
+
+}
+
+function deleteAppointment(id){
+
+fetch("delete_appointment.php",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+
+body:"appointment_id="+id
+
+})
+.then(res=>res.text())
+.then(data=>{
+alert(data);
+loadAppointments();
+});
+
+}
+
+
+
+
+
+    // <================doctors functions==================>
+
+
+
+function loadDoctors(){
+
+fetch("get_doctors.php")
+.then(res=>res.text())
+.then(data=>{
+document.getElementById("doctorTable").innerHTML=data;
+});
+
+}
+
+function deleteDoctor(id){
+
+fetch("delete_doctor.php",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+
+body:"did="+id
+
+})
+.then(res=>res.text())
+.then(data=>{
+alert(data);
+loadDoctors();
+});
+
+}
+function addDoctor(){
+
+let name = document.getElementById("name").value;
+let speciality = document.getElementById("speciality").value;
+let experience = document.getElementById("experience").value;
+
+fetch("add_doctor.php",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+
+body:"name="+name+"&speciality="+speciality+"&experience="+experience
+
+})
+.then(res=>res.text())
+.then(data=>{
+alert(data);
+loadDoctors();
+});
+
+}
+
+loadDoctors();
+loadPatients();
+loadAppointments();
+
+</script>
   <!-- <script src="script.js"></script> -->
 </body>
 </html>

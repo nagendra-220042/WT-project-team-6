@@ -1,17 +1,15 @@
 <?php
 include "db.php";
 
-if(isset($_GET['id'])){
-    $id = $_GET['id'];
+$did = $_POST['did'];
 
-    // Delete doctor by primary key
-    $sql = "DELETE FROM Doctors WHERE did = $id";
+$sql = "DELETE FROM Doctors WHERE did='$did'";
 
-    if($conn->query($sql)){
-        header("Location:admin_login.php");
-        exit();
-    } else {
-        echo "Error deleting doctor: " . $conn->error;
-    }
+if($conn->query($sql)){
+// header("Location: admin_login.php");
+    echo "Deleted Successfully";
+
+}else{
+echo "Error: ".$conn->error;
 }
 ?>

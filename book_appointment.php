@@ -28,7 +28,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     if($result->num_rows > 0){
         echo "⚠ Please prefer other slot. This time is already booked for this doctor.";
     } else {
-            $did = $doctor_id; // doctor id
+        $did = $doctor_id; // doctor id
 
         $sql = "SELECT name FROM Doctors WHERE did = $did";
 
@@ -40,7 +40,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         }
         // Insert appointment into database
         $insert_sql = "INSERT INTO appointments 
-        (patient_name, phone, doctor_id, doctor_name ,appointment_date, appointment_time, disease)
+        (patient_name, phone, doctor_id,doctor_name,appointment_date, appointment_time, disease)
         VALUES
         ('$patient_name','$phone','$doctor_id','$doctor_name','$date','$time','$disease')";
 
