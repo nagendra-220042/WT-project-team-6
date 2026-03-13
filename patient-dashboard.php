@@ -49,7 +49,6 @@ $sql = "INSERT INTO Patients (name, age, gender, phone, email)
         <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
         <li><a href="find-doctor.html"><i class="fas fa-user-md"></i> Find a Doctor</a></li>
         <li><a href="book-appointment.html"><i class="fas fa-calendar-check"></i> Book Appointment</a></li>
-        <li><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
       </ul>
     </div>
   </nav>
@@ -88,7 +87,19 @@ $sql = "INSERT INTO Patients (name, age, gender, phone, email)
 
         <div class="stat-card">
           <i class="fas fa-clock" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
-          <div class="stat-value" id="upcomingAppointments">0</div>
+          <div class="stat-value" id="upcomingAppointments">
+            <?php
+                  $today = date("Y-m-d");
+
+              $sql_upcoming = "SELECT COUNT(*) AS upcoming_total FROM Appointments WHERE patient_name='$name' and appointment_date != '$today'";
+              $result_upcoming = $conn->query($sql_upcoming);
+              $row_upcoming = $result_upcoming->fetch_assoc();
+
+              $upcomnigAppointments = $row_upcoming['upcoming_total'];
+              echo $upcomnigAppointments;
+            ?>
+
+          </div>
           <div class="stat-label">Upcoming Appointments</div>
         </div>
 
@@ -145,7 +156,7 @@ $sql = "INSERT INTO Patients (name, age, gender, phone, email)
 
                   echo "</table>";
 
-                  $conn->close();
+                  
             ?>
           </div>
           <div style="margin-top: 1.5rem;">
@@ -162,19 +173,31 @@ $sql = "INSERT INTO Patients (name, age, gender, phone, email)
           <div class="grid grid-2">
             <div style="padding: 1rem; background: var(--bg-light); border-radius: 8px;">
               <p style="color: var(--text-light); margin-bottom: 0.5rem;">Blood Group</p>
-              <p style="font-size: 1.2rem; font-weight: 600; color: var(--primary-color);">O+</p>
+              <p style="font-size: 1.2rem; font-weight: 600; color: var(--primary-color);">--</p>
             </div>
             <div style="padding: 1rem; background: var(--bg-light); border-radius: 8px;">
               <p style="color: var(--text-light); margin-bottom: 0.5rem;">Age</p>
-              <p style="font-size: 1.2rem; font-weight: 600; color: var(--primary-color);">28 Years</p>
+              <p style="font-size: 1.2rem; font-weight: 600; color: var(--primary-color);">
+              <?php
+                  $sql="select age from patients where name='$name'";
+                  $result=$conn->query($sql);
+                  if($row=$result->fetch_assoc()){
+                    echo $row['age'];
+                  }
+                  else{
+                    echo "error";   
+                  }
+                 $conn->close();
+              ?>
+              Years</p>
             </div>
             <div style="padding: 1rem; background: var(--bg-light); border-radius: 8px;">
               <p style="color: var(--text-light); margin-bottom: 0.5rem;">Height</p>
-              <p style="font-size: 1.2rem; font-weight: 600; color: var(--primary-color);">170 cm</p>
+              <p style="font-size: 1.2rem; font-weight: 600; color: var(--primary-color);">--</p>
             </div>
             <div style="padding: 1rem; background: var(--bg-light); border-radius: 8px;">
               <p style="color: var(--text-light); margin-bottom: 0.5rem;">Weight</p>
-              <p style="font-size: 1.2rem; font-weight: 600; color: var(--primary-color);">65 kg</p>
+              <p style="font-size: 1.2rem; font-weight: 600; color: var(--primary-color);">--</p>
             </div>
           </div>
         </div>
