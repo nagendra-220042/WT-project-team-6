@@ -1,5 +1,5 @@
 <?php
-$conn = new mysqli("localhost","root","","hospital_db");
+$conn = new mysqli("localhost","root","1234","hospital_db");
 
 if($conn->connect_error){
     die("Connection failed: " . $conn->connect_error);

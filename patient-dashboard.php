@@ -1,24 +1,13 @@
 <?php
 
-$servername = "localhost";
-$username = "root";
-$password = "1234";
-$database = "hospital_db";   // change to your database name
+include "db.php";  // change to your database name
 
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli($host, $user, $password, $database);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-$name = $_POST['name'];
-$age = $_POST['age'];
-$gender = $_POST['gender'];
-$phone = $_POST['phone'];
-$email = $_POST['email'];
-
-$sql = "INSERT INTO Patients (name, age, gender, phone, email)
-        VALUES ('$name', '$age', '$gender', '$phone', '$email')";
 
 ?>
 <!DOCTYPE html>
@@ -47,7 +36,7 @@ $sql = "INSERT INTO Patients (name, age, gender, phone, email)
       
       <ul class="nav-menu">
         <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="find-doctor.html"><i class="fas fa-user-md"></i> Find a Doctor</a></li>
+        <li><a href="find-doctor.php"><i class="fas fa-user-md"></i> Find a Doctor</a></li>
         <li><a href="book-appointment.html"><i class="fas fa-calendar-check"></i> Book Appointment</a></li>
       </ul>
     </div>
@@ -58,13 +47,24 @@ $sql = "INSERT INTO Patients (name, age, gender, phone, email)
       <div class="dashboard-header">
         <h1 class="dashboard-title">Welcome, <span id="patientName">
             <?php
-                   if ($conn->query($sql) === TRUE) {
-                        echo $name;
-                } else {
-                        echo "Error: " . $conn->error;
-                }
+                   if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-                    
+                    $name = $_POST['name'];
+                    $age = $_POST['age'];
+                    $gender = $_POST['gender'];
+                    $phone = $_POST['phone'];
+                    $email = $_POST['email'];
+
+                    $sql = "INSERT INTO Patients (name, age, gender, phone, email)
+                    VALUES ('$name', '$age', '$gender', '$phone', '$email')";
+
+                    $conn->query($sql);
+
+                    $_SESSION['patient_name'] = $name;
+
+                    }
+                    echo $name;
+
             ?>
         </span></h1>
         <p>Manage your appointments and view your medical records</p>
@@ -202,29 +202,7 @@ $sql = "INSERT INTO Patients (name, age, gender, phone, email)
           </div>
         </div>
 
-        <div class="card">
-          <h2 style="margin-bottom: 1.5rem; color: var(--text-dark);">
-            <i class="fas fa-history"></i> Recent Visits
-          </h2>
-          <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <div style="padding: 1rem; border-left: 4px solid var(--secondary-color); background: var(--bg-light); border-radius: 4px;">
-              <p style="font-weight: 600; margin-bottom: 0.3rem;">General Checkup</p>
-              <p style="color: var(--text-light); font-size: 0.9rem;">Dr. Rajesh Kumar - March 1, 2026</p>
-            </div>
-            <div style="padding: 1rem; border-left: 4px solid var(--primary-color); background: var(--bg-light); border-radius: 4px;">
-              <p style="font-weight: 600; margin-bottom: 0.3rem;">Dental Consultation</p>
-              <p style="color: var(--text-light); font-size: 0.9rem;">Dr. Priya Sharma - February 15, 2026</p>
-            </div>
-            <div style="padding: 1rem; border-left: 4px solid var(--accent-color); background: var(--bg-light); border-radius: 4px;">
-              <p style="font-weight: 600; margin-bottom: 0.3rem;">Eye Checkup</p>
-              <p style="color: var(--text-light); font-size: 0.9rem;">Dr. Amit Patel - January 20, 2026</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
+        
   <footer class="footer">
     <div class="container">
       <p>&copy; 2026 Sanjeevani Hospital. All rights reserved.</p>

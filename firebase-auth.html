@@ -1,18 +1,20 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
+<title>Google login - Sanjeevani Hospital</title><meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SignUp - Sanjeevani Hospital</title>
+  
   <link rel="icon" type="image/png" href="resources\logo1.png">
 
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
   <link rel="stylesheet" href="styles.css">
 
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-</head>
-<body>
 
-  <nav class="navbar">
+</head>
+
+<body>
+     <nav class="navbar">
     <div class="container navbar-content">
       <a href="index.html" class="brand">
         <i class="fas fa-heartbeat"></i>
@@ -31,29 +33,19 @@
       </ul>
     </div>
   </nav>
-
-  <div class="login-container">
+   <div class="login-container">
     <div class="login-box">
-      <div style="text-align: center; margin-bottom: 2rem;">
-        <i class="fas fa-heartbeat" style="font-size: 3rem; color: var(--primary-color);"></i>
-      </div>
+      
 
-      <h2 class="login-title">Welcome Back</h2>
-
+      <h2 class="login-title">SignUp with Google</h2>
+      <button onclick="googleLogin()" class="btn btn-secondary ">Signup with Google</button>
        <form id="appointmentForm" action="patient-dashboard.php" method="post">
-            <div class="form-group">
-              <label class="form-label" for="patientName">
-                <i class="fas fa-user"></i> Patient Name *
-              </label>
-              <input
-                type="text"
-                name="name"
-                id="patientName"
-                class="form-control"
-                placeholder="Enter your full name"
-                required
-              >
-            </div>
+
+            Name:<br>
+          <input type="text" id="name" name="name" class="form-control" readonly><br><br>
+
+          Email:<br>
+          <input type="email" id="email" name="email" class="form-control" readonly><br><br>
 
             <div class="grid grid-2" style="gap: 1rem;">
               <div class="form-group">
@@ -100,19 +92,7 @@
               >
             </div>
 
-            <div class="form-group">
-              <label class="form-label" for="email">
-                <i class="fas fa-envelope"></i> Email Address *
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                class="form-control"
-                placeholder="Enter your email"
-                required
-              >
-            </div>
+            
             <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
           <i class="fas fa-sign-in-alt"></i> SignUp
         </button>
@@ -121,10 +101,6 @@
 
 </form>
      
-   <a href="firebase-auth.html"> <button class="btn btn-secondary ">
-          <i class="fab fa-google"></i> Sign in with google
-        </button>
-      </a>
   <footer class="footer">
     <div class="container">
       <p>&copy; 2026 Sanjeevani Hospital. All rights reserved.</p>
@@ -135,9 +111,52 @@
     </div>
   </footer>
 
-    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
-  <script src="firebase-auth.js"></script>
-  <!-- <script src="script.js"></script> -->
+<script>
+
+// Firebase configuration
+var firebaseConfig = {
+    apiKey: "AIzaSyACnL25YssweGPswuseVYoQO_gRFpfJr8k",
+  authDomain: "hospital-auth-3080b.firebaseapp.com",
+  projectId: "hospital-auth-3080b",
+  storageBucket: "hospital-auth-3080b.firebasestorage.app",
+  messagingSenderId: "998121964570",
+  appId: "1:998121964570:web:572aca645b759b96b23da3"
+
+};
+
+firebase.initializeApp(firebaseConfig);
+
+
+// Google Login
+function googleLogin(){
+
+var provider = new firebase.auth.GoogleAuthProvider();
+
+firebase.auth().signInWithPopup(provider)
+
+.then(function(result){
+
+var user = result.user;
+
+var name = user.displayName;
+var email = user.email;
+
+// fill input fields
+document.getElementById("name").value = name;
+document.getElementById("email").value = email;
+
+// show form
+document.getElementById("patientForm").style.display = "block";
+
+})
+
+.catch(function(error){
+console.log(error);
+});
+
+}
+
+</script>
+
 </body>
 </html>

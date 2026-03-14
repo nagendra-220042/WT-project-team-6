@@ -9,7 +9,11 @@
   <link rel="stylesheet" href="styles.css">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+ 
+
+</style>
 </head>
+
 <body>
 
   <nav class="navbar">
@@ -25,7 +29,7 @@
 
       <ul class="nav-menu">
         <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="find-doctor.html"><i class="fas fa-user-md"></i> Find a Doctor</a></li>
+        <li><a href="find-doctor.php"><i class="fas fa-user-md"></i> Find a Doctor</a></li>
         <li><a href="book-appointment.html"><i class="fas fa-calendar-check"></i> Book Appointment</a></li>
         <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login </a></li>
       </ul>
@@ -34,29 +38,40 @@
 
   <section class="section">
     <div class="container">
-      <h1 class="section-title">Find a Doctor</h1>
-      <p class="section-subtitle">Search for our expert medical professionals by name or specialty</p>
+       <h2 class="section-title">Our Expert Doctors</h2>
+        <p class="section-subtitle">Meet our team of highly qualified medical professionals</p>
 
-      <div class="search-filter">
-        <input
-          type="text"
-          id="searchDoctor"
-          class="form-control"
-          placeholder="Search by doctor name or specialty..."
-        >
-        <select id="specialtyFilter" class="form-control">
-          <option value="all">All Specialties</option>
-          <option value="cardiologist">Cardiologist</option>
-          <option value="pediatrician">Pediatrician</option>
-          <option value="orthopedic">Orthopedic</option>
-          <option value="dermatologist">Dermatologist</option>
-          <option value="neurologist">Neurologist</option>
-          <option value="gynecologist">Gynecologist</option>
-        </select>
-      </div>
 
       <div id="doctorsGrid" class="grid grid-3">
+        <?php
+       include "db.php";
+        $query = "SELECT * FROM doctors";
+        $result = mysqli_query($conn,$query);
+        while($row = mysqli_fetch_assoc($result)){
+        ?>
+        <div class="card">
+        <div class="doctor-card">
+
+        <h3 class="card-title"><?php echo $row['name']; ?></h3>
+
+        <p class="doctor-specialty">Speciality: <?php echo $row['speciality']; ?></p>
+
+        <p class="doctor-experience">Experience: <?php echo $row['experience']; ?> years</p>
+
+        
+
+      
+
+        <a href="book-appointment.html"><button class="btn btn-primary" type="submit">Book a Appointment</button></a>
+
+        </form>
+
+        </div>
       </div>
+
+        <?php
+        }
+        ?>
     </div>
   </section>
 

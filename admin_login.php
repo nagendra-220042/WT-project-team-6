@@ -36,7 +36,7 @@ $result = $conn->query($sql);
 
       <ul class="nav-menu">
         <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="find-doctor.html"><i class="fas fa-user-md"></i> Doctors</a></li>
+        <li><a href="find-doctor.php"><i class="fas fa-user-md"></i> Doctors</a></li>
         <li><a href="admin-dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
       </ul>
     </div>

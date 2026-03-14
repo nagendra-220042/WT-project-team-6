@@ -12,7 +12,7 @@ if ($conn->connect_error) {
 }
 
 $name = $_POST['name'];
-$phone = $_POST['phone'];
+$email = $_POST['email'];
 
 
 
@@ -56,7 +56,7 @@ $phone = $_POST['phone'];
       <div class="dashboard-header">
         <h1 class="dashboard-title"> <span id="patientName">
             <?php
-                    $sql = "SELECT name FROM Patients WHERE name='$name' AND phone='$phone'";
+                    $sql = "SELECT name FROM Patients WHERE name='$name' AND email='$email'";
                     $result = $conn->query($sql);
 
                     if ($result->num_rows > 0) {
@@ -153,8 +153,6 @@ $phone = $_POST['phone'];
                               <td>".$row['appointment_time']."</td>
                               <td>".$row['disease']."</td>
                             </tr>";
-                            
-
                   }
 
                   echo "</table>";
@@ -188,11 +186,10 @@ $phone = $_POST['phone'];
                         if ($result->num_rows > 0) {
                             $row = $result->fetch_assoc();
                             echo $row['age'];
-                            
                         } else {
                             echo "--";
                         }
-                         
+                         $conn->close();
                   ?>
               </p>
             </div>
@@ -212,9 +209,7 @@ $phone = $_POST['phone'];
             <i class="fas fa-history"></i> Recent Visits
           </h2>
           <div style="display: flex; flex-direction: column; gap: 1rem;">
-            <div style="padding: 1rem; border-left: 4px solid var(--secondary-color); background: var(--bg-light); border-radius: 4px;">
-             
-                <?php
+            <?php
                       $sql = "SELECT patient_name, phone, doctor_name, appointment_date, appointment_time, disease
                                 FROM Appointments
                                 WHERE patient_name='$name'";
@@ -232,9 +227,6 @@ $phone = $_POST['phone'];
                      }
                       $conn->close();
                   ?>
-              
-            </div>
-           
           </div>
         </div>
       </div>

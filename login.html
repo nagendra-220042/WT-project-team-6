@@ -25,7 +25,7 @@
 
       <ul class="nav-menu">
         <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
-        <li><a href="find-doctor.html"><i class="fas fa-user-md"></i> Find a Doctor</a></li>
+        <li><a href="find-doctor.php"><i class="fas fa-user-md"></i> Find a Doctor</a></li>
         <li><a href="book-appointment.html"><i class="fas fa-calendar-check"></i> Book Appointment</a></li>
         <li><a href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a></li>
       </ul>
@@ -51,30 +51,36 @@
 
 
       <form id="loginForm" method="post" action="login.php">
-        <div class="form-group">
-          <label class="form-label" for="name">
-            <i class="fas fa-user"></i> 
-            Name
-          </label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            class="form-control"
-            placeholder="Enter your name"
-            required
-          >
-     
-    <div class="form-group">
-        <label class="form-label" for="number">
-            <i class="fas fa-phone"></i> Phone Number
-        </label>
-        <input type="number" id="number" name="phone" class="form-control" placeholder="Enter your phno" pattern="[0-9]{10}" required>
-    </div>
+              <div class="form-group">
+                <label class="form-label" for="name">
+                  <i class="fas fa-user"></i> 
+                  Name
+                </label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  class="form-control"
+                  placeholder="Enter your name"
+                  required
+                >
+           
+          <div class="form-group">
+              <label class="form-label" for="number">
+                  <i class="fas fa-phone"></i> Phone Number
+              </label>
+              <input type="number" id="number" name="phone" class="form-control" placeholder="Enter your phno" pattern="[0-9]{10}" required>
+          </div>
 
-    <button type="submit" name="login" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
-        <i class="fas fa-sign-in-alt"></i> Login
-    </button>
+          <button type="submit" name="login" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+              <i class="fas fa-sign-in-alt"></i> Login
+          </button>
+    </form>
+
+       <a href="login-with-google.html"> <p class="btn btn-secondary ">
+            <i class="fab fa-google"></i> login  with google
+          </p>
+        </a>
 
         <div class="admin-login-button">
         <i class="fas fa-user-shield"></i>
@@ -82,7 +88,8 @@
         <p>Are you not registered yet</p>
         <a href="signup.html">SignUp</a>
         </div>
-      </form>
+       
+      
 
       
 
@@ -105,6 +112,6 @@
     </div>
   </footer>
   </div>
-  <!-- <script src="script.js"></script> -->
+
 </body>
 </html>
