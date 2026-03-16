@@ -122,46 +122,28 @@ $phone = $_POST['phone'];
           <h2 style="margin-bottom: 1.5rem; color: var(--text-dark);">
             <i class="fas fa-calendar-alt"></i> My Appointments
           </h2>
-          <div class="table-container" style="padding: 0; box-shadow: none;">
-            <?php
-            // Query to get appointment details
-                  $sql = "SELECT patient_name, phone, doctor_name, appointment_date, appointment_time, disease
-                          FROM Appointments
-                          WHERE patient_name='$name'";
+          <div class="table-container">
+          <h2 style="margin-bottom: 1.5rem; color: var(--text-dark);">
+            <i class="fas fa-calendar-alt"></i> Appointment List
+          </h2>
+           <table border="1">
 
-                  $result = $conn->query($sql);
+          <thead>
+          <tr>
+            
+          <th>Patient Name</th>
+          <th>Phone No</th>
+          <th>Doctor Name</th>
+          <th>Appointment Date</th>
+          <th>Appointment Time</th>
+          <th>Disease</th>
+          </tr>
+          </thead>
 
+          <tbody id="appointmentTable"></tbody>
 
-                  echo "<table border='1' cellpadding='10' class='table'>";
-
-                  echo "<tr>
-                          <th>Patient Name</th>
-                          <th>Phone</th>
-                          <th>Doctor Name</th>
-                          <th>Appointment Date</th>
-                          <th>Appointment Time</th>
-                          <th>Disease</th>
-                        </tr>";
-
-                  while($row = $result->fetch_assoc()){
-
-                      echo "<tr>
-                              <td>".$row['patient_name']."</td>
-                              <td>".$row['phone']."</td>
-                              <td>".$row['doctor_name']."</td>
-                              <td>".$row['appointment_date']."</td>
-                              <td>".$row['appointment_time']."</td>
-                              <td>".$row['disease']."</td>
-                            </tr>";
-                            
-
-                  }
-
-                  echo "</table>";
-
-                 
-            ?>
-          </div>
+          </table>
+        </div>
           <div style="margin-top: 1.5rem;">
             <a href="book-appointment.html" class="btn btn-primary">
               <i class="fas fa-plus"></i> Book New Appointment
@@ -209,7 +191,7 @@ $phone = $_POST['phone'];
 
         <div class="card">
           <h2 style="margin-bottom: 1.5rem; color: var(--text-dark);">
-            <i class="fas fa-history"></i> Recent Visits
+            <i class="fas fa-history"></i> Recent OR Upcoming Visits
           </h2>
           <div style="display: flex; flex-direction: column; gap: 1rem;">
             <div style="padding: 1rem; border-left: 4px solid var(--secondary-color); background: var(--bg-light); border-radius: 4px;">
@@ -250,7 +232,46 @@ $phone = $_POST['phone'];
       </p>
     </div>
   </footer>
+<script>
 
+    // <================appointments functions==================>
+
+ function loadAppointments(name){
+
+fetch("get_appointment.php?name=" + encodeURIComponent(name))
+.then(res => res.text())
+.then(data => {
+document.getElementById("appointmentTable").innerHTML = data;
+});
+
+}
+
+
+function deleteAppointment(id){
+
+fetch("delete_appointment.php",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+
+body:"appointment_id="+id
+
+})
+.then(res=>res.text())
+.then(data=>{
+alert(data);
+loadAppointments();
+});
+
+}
+
+let username = "<?php echo $name; ?>";
+loadAppointments(username);
+
+</script>
   <!-- <script src="script.js"></script> -->
 </body>
 </html>

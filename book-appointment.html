@@ -64,19 +64,15 @@
             </div>
 
             <div class="form-group">
-              <label class="form-label" for="doctor">
-                <i class="fas fa-user-md"></i> Select Doctor *
-              </label>
-              <select id="doctor" name="doctor_id" class="form-control" required>
-                  <option value="">Choose a Doctor</option>
-                  <option value="1">Dr. Rajesh Kumar - Cardiologist</option>
-                  <option value="2">Dr. Priya Sharma - Pediatrician</option>
-                  <option value="3">Dr. Amit Patel - Orthopedic</option>
-                  <option value="4">Dr. Sneha Reddy - Dermatologist</option>
-                  <option value="5">Dr. Vikram Singh - Neurologist</option>
-                  <option value="6">Dr. Anjali Mehta - Gynecologist</option>
-              </select>
-            </div>
+            <label class="form-label" for="doctor">
+              <i class="fas fa-user-md"></i> Select Doctor *
+            </label>
+
+            <select id="doctor" name="doctor_id" class="form-control" required>
+                <option value="">Choose a Doctor</option>
+            </select>
+
+          </div>
 
             <div class="grid grid-2" style="gap: 1rem;">
               <div class="form-group">
@@ -133,6 +129,34 @@ document.getElementById('appointmentForm').addEventListener('submit', function(e
     })
     .catch(error => console.error('Error:', error));
 });
+</script>
+<script>
+
+function loadDoctors() {
+
+    fetch("get_doctorslist.php")
+    .then(response => response.json())
+    .then(data => {
+
+        let doctorSelect = document.getElementById("doctor");
+
+        data.forEach(function(doctor){
+
+            let option = document.createElement("option");
+
+            option.value = doctor.did;
+            option.text = doctor.name + " - " + doctor.speciality;
+
+            doctorSelect.appendChild(option);
+
+        });
+
+    });
+
+}
+
+window.onload = loadDoctors;
+
 </script>
 </body>
 </html>

@@ -5,8 +5,8 @@ $admin_id = $_POST['admin_id'];
 $password = $_POST['password'];
 
 $sql = "SELECT * FROM admin WHERE admin_id='$admin_id' AND password='$password'";
-$result = $conn->query($sql);
-
+$total_result = $conn->query($sql);
+$hasData = ($total_result->num_rows > 0);
 
 ?>
 <!DOCTYPE html>
@@ -37,7 +37,7 @@ $result = $conn->query($sql);
       <ul class="nav-menu">
         <li><a href="index.html"><i class="fas fa-home"></i> Home</a></li>
         <li><a href="find-doctor.php"><i class="fas fa-user-md"></i> Doctors</a></li>
-        <li><a href="admin-dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
+        <li><a href="#"><i class="fas fa-tachometer-alt"></i> Dashboard</a></li>
       </ul>
     </div>
   </nav>
@@ -48,7 +48,7 @@ $result = $conn->query($sql);
         <h1 class="dashboard-title">
           <i class="fas fa-user-shield"></i> 
           <?php
-                if($result->num_rows > 0){
+                if($total_result->num_rows > 0){
                     echo "Welcome ".$admin_id;
                 
             }else{
@@ -65,8 +65,9 @@ $result = $conn->query($sql);
           <i class="fas fa-users" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
           <div class="stat-value" id="totalPatients">
               <?php
+                if($total_result->num_rows > 0){
                 $total_patients = $conn->query("SELECT COUNT(*) as total FROM Patients")->fetch_assoc()['total'];
-                echo $total_patients;
+                echo $total_patients;}
               ?>
           </div>
           <div class="stat-label">Total Patients</div>
@@ -76,8 +77,9 @@ $result = $conn->query($sql);
           <i class="fas fa-user-md" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
           <div class="stat-value" id="totalDoctors">
               <?php
+              if($total_result->num_rows > 0){
                 $total_doctors = $conn->query("SELECT COUNT(*) as total FROM Doctors")->fetch_assoc()['total'];
-                echo $total_doctors;
+                echo $total_doctors;}
               ?>
           </div>
           <div class="stat-label">Total Doctors</div>
@@ -87,8 +89,9 @@ $result = $conn->query($sql);
           <i class="fas fa-calendar-check" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
           <div class="stat-value" id="totalAppointments">
               <?php
+              if($total_result->num_rows > 0){
                 $total_appointments = $conn->query("SELECT COUNT(*) as total FROM Appointments")->fetch_assoc()['total'];
-                echo $total_appointments;
+                echo $total_appointments;}
               ?>
           </div>
           <div class="stat-label">Total Appointments</div>
@@ -98,6 +101,7 @@ $result = $conn->query($sql);
           <i class="fas fa-calendar-day" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
           <div class="stat-value" id="todayAppointments">
             <?php
+              if($total_result->num_rows > 0){
                   $today = date("Y-m-d");
 
               $sql_today = "SELECT COUNT(*) AS today_total FROM Appointments WHERE appointment_date = '$today'";
@@ -106,6 +110,7 @@ $result = $conn->query($sql);
 
               $todayAppointments = $row_today['today_total'];
               echo $todayAppointments;
+            }
             ?>
           </div>
           <div class="stat-label">Today's Appointments</div>
@@ -123,11 +128,12 @@ $result = $conn->query($sql);
 
           <thead>
           <tr>
-          <th>ID</th>
+          <th>Patinet_ID</th>
           <th>Name</th>
-          <th>Speciality</th>
-          <th>Experience</th>
-          <th>Action</th>
+          <th>Age</th>
+          <th>Gender</th>
+          <th>Phone no</th>
+          <th>Email</th>
           </tr>
           </thead>
 
@@ -179,7 +185,7 @@ $result = $conn->query($sql);
 
           </table>
         
-        <input type="text" id="name" placeholder="Doctor Name">
+        <input type="text" id="doctor_name" placeholder="Doctor Name">
 
         <input type="text" id="speciality" placeholder="Speciality">
 
@@ -187,6 +193,16 @@ $result = $conn->query($sql);
 
         <button onclick="addDoctor()">Add Doctor</button>
         </div>
+        <div class="table-container">
+          <h2 style="margin-bottom: 1.5rem; color: var(--text-dark);">
+            <i class="fas fa-calendar-alt"></i> Add Admin
+          </h2>
+          <input type="text" id="admin_name" placeholder="Admin Name">
+
+        <input type="password" id="password" placeholder="Password">
+
+        <button onclick="addAdmin()">Add Admin</button>
+      </div>
 
         <div class="card">
           <h2 style="margin-bottom: 1.5rem; color: var(--text-dark);">
@@ -211,50 +227,21 @@ $result = $conn->query($sql);
           </div>
         </div>
 
-        <div class="grid grid-2">
+        <div class="grid grid-3">
           <div class="card">
             <h3 style="margin-bottom: 1rem; color: var(--text-dark);">
               <i class="fas fa-user-injured"></i> Department Overview
             </h3>
-            <div style="display: flex; flex-direction: column; gap: 0.8rem;">
-              <div style="display: flex; justify-content: space-between; padding: 0.8rem; background: var(--bg-light); border-radius: 6px;">
-                <span>Cardiology</span>
-                <span class="badge badge-success">8 Doctors</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; padding: 0.8rem; background: var(--bg-light); border-radius: 6px;">
-                <span>Pediatrics</span>
-                <span class="badge badge-success">6 Doctors</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; padding: 0.8rem; background: var(--bg-light); border-radius: 6px;">
-                <span>Orthopedics</span>
-                <span class="badge badge-success">7 Doctors</span>
-              </div>
-              <div style="display: flex; justify-content: space-between; padding: 0.8rem; background: var(--bg-light); border-radius: 6px;">
-                <span>Neurology</span>
-                <span class="badge badge-success">5 Doctors</span>
-              </div>
-            </div>
-          </div>
 
-          <div class="card">
-            <h3 style="margin-bottom: 1rem; color: var(--text-dark);">
-              <i class="fas fa-clock"></i> Recent Activity
-            </h3>
-            <div style="display: flex; flex-direction: column; gap: 1rem;">
-              <div style="padding: 1rem; border-left: 4px solid var(--secondary-color); background: var(--bg-light); border-radius: 4px;">
-                <p style="font-weight: 600; margin-bottom: 0.3rem;">New Patient Registered</p>
-                <p style="color: var(--text-light); font-size: 0.9rem;">Ramesh Kumar - 2 hours ago</p>
-              </div>
-              <div style="padding: 1rem; border-left: 4px solid var(--primary-color); background: var(--bg-light); border-radius: 4px;">
-                <p style="font-weight: 600; margin-bottom: 0.3rem;">Appointment Confirmed</p>
-                <p style="color: var(--text-light); font-size: 0.9rem;">Sunita Devi - 3 hours ago</p>
-              </div>
-              <div style="padding: 1rem; border-left: 4px solid var(--accent-color); background: var(--bg-light); border-radius: 4px;">
-                <p style="font-weight: 600; margin-bottom: 0.3rem;">Patient Discharged</p>
-                <p style="color: var(--text-light); font-size: 0.9rem;">Anil Verma - 5 hours ago</p>
-              </div>
+            <div  style="display:flex; flex-direction:column; gap:0.8rem;">
+              <p id="departmentOverview"></p>
+              
             </div>
+
           </div>
+        </div>
+
+ 
         </div>
       </div>
     </div>
@@ -381,7 +368,7 @@ loadDoctors();
 }
 function addDoctor(){
 
-let name = document.getElementById("name").value;
+let name = document.getElementById("doctor_name").value;
 let speciality = document.getElementById("speciality").value;
 let experience = document.getElementById("experience").value;
 
@@ -404,9 +391,56 @@ loadDoctors();
 
 }
 
+
+    // <================Admin functions==================>
+
+
+function addAdmin(){
+
+let name = document.getElementById("admin_name").value;
+let password = document.getElementById("password").value;
+
+
+fetch("add_admin.php",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+
+body:"name="+name+"&password="+password
+
+})
+.then(res=>res.text())
+.then(data=>{
+alert(data);
+});
+
+}
+    // <================speciality functions==================>
+
+function loadDepartments(){
+
+fetch("get_departments.php")
+.then(res => res.text())
+.then(data => {
+document.getElementById("departmentOverview").innerHTML = data;
+});
+
+}
+
+
+
+
+let hasData = <?php echo json_encode($hasData); ?>;
+
+if(hasData){
 loadDoctors();
 loadPatients();
 loadAppointments();
+loadDepartments();
+}
 
 </script>
   <!-- <script src="script.js"></script> -->
