@@ -59,4 +59,13 @@ INSERT INTO Admin (admin_id, password) VALUES
 ALTER TABLE patients ADD UNIQUE (email);
 
 ALTER TABLE appointments 
-ADD UNIQUE (patient_email, doctor_id, date, time);
+ADD UNIQUE (patient_email, doctor_id, appointment_date, appointment_time);
+
+-- Prevent duplicate doctors
+ALTER TABLE doctors 
+ADD UNIQUE (name, speciality);
+
+-- Prevent duplicate admins
+ALTER TABLE admin 
+ADD UNIQUE (admin_id);
+
