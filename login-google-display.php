@@ -2,7 +2,7 @@
 
 $servername = "localhost";
 $username = "root";
-$password = "1234";
+$password = "";
 $database = "hospital_db";   // change to your database name
 
 $conn = new mysqli($servername, $username, $password, $database);

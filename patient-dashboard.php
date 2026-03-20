@@ -49,20 +49,25 @@ if ($conn->connect_error) {
             <?php
                    if($_SERVER["REQUEST_METHOD"] == "POST"){
 
-                    $name = $_POST['name'];
-                    $age = $_POST['age'];
-                    $gender = $_POST['gender'];
-                    $phone = $_POST['phone'];
-                    $email = $_POST['email'];
+                        $name = $_POST['name'];
+                        $age = $_POST['age'];
+                        $gender = $_POST['gender'];
+                        $phone = $_POST['phone'];
+                        $email = $_POST['email'];
 
-                    $sql = "INSERT INTO Patients (name, age, gender, phone, email)
-                    VALUES ('$name', '$age', '$gender', '$phone', '$email')";
+                       // Check if email already exists
+                       $checkQuery = "SELECT * FROM Patients WHERE email='$email'";
+                       $result = $conn->query($checkQuery);
 
-                    $conn->query($sql);
+                       if ($result->num_rows == 0) {
+                            // Insert only if NOT exists
+                            $sql = "INSERT INTO Patients (name, age, gender, phone, email)
+                            VALUES ('$name', '$age', '$gender', '$phone', '$email')";
+                            $conn->query($sql);
+    }
 
-                    $_SESSION['patient_name'] = $name;
-
-                    }
+    $_SESSION['patient_name'] = $name;
+}
                     echo $name;
 
             ?>
