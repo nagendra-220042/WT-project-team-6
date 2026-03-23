@@ -416,7 +416,7 @@ headers:{
 "Content-Type":"application/x-www-form-urlencoded"
 },
 
-body:"name="+name+"&password="+password
+body:"admin_id="+name+"&password="+password
 
 })
 .then(res=>res.text())

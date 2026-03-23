@@ -1,7 +1,14 @@
 <?php
 
+
 if(isset($_POST['login'])){
 include "db.php";  // change to your database name
+
+$servername = "localhost";
+$username = "root";
+$password = "";
+$database = "hospital_db";   // change to your database name
+
 
 $conn = new mysqli($host, $user, $password, $database);
 

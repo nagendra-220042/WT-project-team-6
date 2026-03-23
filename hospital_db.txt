@@ -13,7 +13,7 @@ CREATE TABLE Patients (
     age INT,
     gender VARCHAR(10),
     phone VARCHAR(15),
-    email VARCHAR(100),
+    email VARCHAR(100)
 );
 CREATE TABLE Appointments (
     appointment_id INT AUTO_INCREMENT PRIMARY KEY,
@@ -55,3 +55,17 @@ VALUES
 INSERT INTO Admin (admin_id, password) VALUES
 ('admin1', 'admin123'),
 ('admin2', 'hospital456');
+
+ALTER TABLE patients ADD UNIQUE (email);
+
+ALTER TABLE appointments 
+ADD UNIQUE (doctor_id, appointment_date, appointment_time);
+
+-- Prevent duplicate doctors
+ALTER TABLE doctors 
+ADD UNIQUE (name, speciality);
+
+-- Prevent duplicate admins
+ALTER TABLE admin 
+ADD UNIQUE (admin_id);
+
