@@ -118,10 +118,10 @@
 //   }
 // ];
 
-// function toggleMobileMenu() {
-//   const navMenu = document.querySelector('.nav-menu');
-//   navMenu.classList.toggle('active');
-// }
+function toggleMobileMenu() {
+  const navMenu = document.querySelector('.nav-menu');
+  navMenu.classList.toggle('active');
+}
 
 // function searchDoctors() {
 //   const searchInput = document.getElementById('searchDoctor');

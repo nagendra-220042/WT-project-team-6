@@ -1,19 +1,17 @@
 <?php
 
-$servername = "localhost";
-$username = "root";
-$password = "1234";
-$database = "hospital_db";   // change to your database name
-
-$conn = new mysqli($servername, $username, $password, $database);
+include "db.php";
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
+if(isset($_POST['name'])){
 $name = $_POST['name'];
 $email = $_POST['email'];
-
+}
+else{
+  header("location:login-with-google.html");
+}
 
 
 
@@ -123,42 +121,28 @@ $email = $_POST['email'];
             <i class="fas fa-calendar-alt"></i> My Appointments
           </h2>
           <div class="table-container" style="padding: 0; box-shadow: none;">
-            <?php
-            // Query to get appointment details
-                  $sql = "SELECT patient_name, phone, doctor_name, appointment_date, appointment_time, disease
-                          FROM Appointments
-                          WHERE patient_name='$name'";
+           <div class="table-container">
+          <h2 style="margin-bottom: 1.5rem; color: var(--text-dark);">
+            <i class="fas fa-calendar-alt"></i> Appointment List
+          </h2>
+           <table border="1">
 
-                  $result = $conn->query($sql);
+          <thead>
+          <tr>
+            
+          <th>Patient Name</th>
+          <th>Phone No</th>
+          <th>Doctor Name</th>
+          <th>Appointment Date</th>
+          <th>Appointment Time</th>
+          <th>Disease</th>
+          </tr>
+          </thead>
 
+          <tbody id="appointmentTable"></tbody>
 
-                  echo "<table border='1' cellpadding='10' class='table'>";
-
-                  echo "<tr>
-                          <th>Patient Name</th>
-                          <th>Phone</th>
-                          <th>Doctor Name</th>
-                          <th>Appointment Date</th>
-                          <th>Appointment Time</th>
-                          <th>Disease</th>
-                        </tr>";
-
-                  while($row = $result->fetch_assoc()){
-
-                      echo "<tr>
-                              <td>".$row['patient_name']."</td>
-                              <td>".$row['phone']."</td>
-                              <td>".$row['doctor_name']."</td>
-                              <td>".$row['appointment_date']."</td>
-                              <td>".$row['appointment_time']."</td>
-                              <td>".$row['disease']."</td>
-                            </tr>";
-                  }
-
-                  echo "</table>";
-
-                 
-            ?>
+          </table>
+        </div>
           </div>
           <div style="margin-top: 1.5rem;">
             <a href="book-appointment.html" class="btn btn-primary">
@@ -189,7 +173,7 @@ $email = $_POST['email'];
                         } else {
                             echo "--";
                         }
-                         $conn->close();
+                         
                   ?>
               </p>
             </div>
@@ -242,7 +226,43 @@ $email = $_POST['email'];
       </p>
     </div>
   </footer>
+<script>
+  function loadAppointments(name,phone){
 
+fetch("get_appointment.php?name=" + encodeURIComponent(name)+"&phone="+ encodeURIComponent(phone))
+.then(res => res.text())
+.then(data => {
+document.getElementById("appointmentTable").innerHTML = data;
+});
+
+}
+
+
+function deleteAppointment(id){
+
+fetch("delete_appointment.php",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/x-www-form-urlencoded"
+},
+
+body:"appointment_id="+id
+
+})
+.then(res=>res.text())
+.then(data=>{
+alert(data);
+loadAppointments();
+});
+
+}
+
+let username = "<?php echo $name; ?>";
+let userphone = "<?php echo $phone; ?>";
+loadAppointments(username,userphone);
+</script>
   <!-- <script src="script.js"></script> -->
 </body>
 </html>

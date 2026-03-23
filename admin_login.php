@@ -1,5 +1,7 @@
 <?php
 include "db.php";
+if(isset($_POST['sub'])){
+
 
 $admin_id = $_POST['admin_id'];
 $password = $_POST['password'];
@@ -7,6 +9,10 @@ $password = $_POST['password'];
 $sql = "SELECT * FROM admin WHERE admin_id='$admin_id' AND password='$password'";
 $total_result = $conn->query($sql);
 $hasData = ($total_result->num_rows > 0);
+}
+else{
+  header("location:admin-login.html");
+}
 
 ?>
 <!DOCTYPE html>
@@ -111,6 +117,7 @@ $hasData = ($total_result->num_rows > 0);
               $todayAppointments = $row_today['today_total'];
               echo $todayAppointments;
             }
+
             ?>
           </div>
           <div class="stat-label">Today's Appointments</div>
@@ -444,5 +451,7 @@ loadDepartments();
 
 </script>
   <!-- <script src="script.js"></script> -->
+
+
 </body>
 </html>

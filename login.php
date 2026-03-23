@@ -1,11 +1,9 @@
 <?php
 
-$servername = "localhost";
-$username = "root";
-$password = "1234";
-$database = "hospital_db";   // change to your database name
+if(isset($_POST['login'])){
+include "db.php";  // change to your database name
 
-$conn = new mysqli($servername, $username, $password, $database);
+$conn = new mysqli($host, $user, $password, $database);
 
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
@@ -13,7 +11,10 @@ if ($conn->connect_error) {
 
 $name = $_POST['name'];
 $phone = $_POST['phone'];
-
+}
+else{
+  header("location:login.html");
+}
 
 
 
@@ -78,7 +79,7 @@ $phone = $_POST['phone'];
           <div class="stat-value" id="totalAppointments">
             <?php
               // Query to count appointments
-              $count_sql = "SELECT COUNT(*) AS total FROM Appointments WHERE patient_name='$name'";
+              $count_sql = "SELECT COUNT(*) AS total FROM Appointments WHERE patient_name='$name' and phone='$phone'";
               $count_result = $conn->query($count_sql);
               $count_row = $count_result->fetch_assoc();
               echo $count_row['total'];
@@ -93,7 +94,7 @@ $phone = $_POST['phone'];
             <?php
                   $today = date("Y-m-d");
 
-              $sql_upcoming = "SELECT COUNT(*) AS upcoming_total FROM Appointments WHERE patient_name='$name' and appointment_date != '$today'";
+              $sql_upcoming = "SELECT COUNT(*) AS upcoming_total FROM Appointments WHERE patient_name='$name' and phone='$phone' and appointment_date != '$today'";
               $result_upcoming = $conn->query($sql_upcoming);
               $row_upcoming = $result_upcoming->fetch_assoc();
 
@@ -199,7 +200,7 @@ $phone = $_POST['phone'];
                 <?php
                       $sql = "SELECT patient_name, phone, doctor_name, appointment_date, appointment_time, disease
                                 FROM Appointments
-                                WHERE patient_name='$name'";
+                                WHERE patient_name='$name' and phone='$phone'";
 
                         $result = $conn->query($sql);
                      while($row = $result->fetch_assoc()){
@@ -236,9 +237,9 @@ $phone = $_POST['phone'];
 
     // <================appointments functions==================>
 
- function loadAppointments(name){
+ function loadAppointments(name,phone){
 
-fetch("get_appointment.php?name=" + encodeURIComponent(name))
+fetch("get_appointment.php?name=" + encodeURIComponent(name)+"&phone="+ encodeURIComponent(phone))
 .then(res => res.text())
 .then(data => {
 document.getElementById("appointmentTable").innerHTML = data;
@@ -269,7 +270,8 @@ loadAppointments();
 }
 
 let username = "<?php echo $name; ?>";
-loadAppointments(username);
+let userphone= "<?php echo $phone; ?>";
+loadAppointments(username,userphone);
 
 </script>
   <!-- <script src="script.js"></script> -->

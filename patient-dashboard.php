@@ -1,5 +1,5 @@
 <?php
-
+if(isset($_POST['sub'])){
 include "db.php";  // change to your database name
 
 $conn = new mysqli($host, $user, $password, $database);
@@ -7,7 +7,10 @@ $conn = new mysqli($host, $user, $password, $database);
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
-
+}
+else{
+  header("location:signup.html");
+}
 
 ?>
 <!DOCTYPE html>
@@ -16,7 +19,7 @@ if ($conn->connect_error) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Patient Dashboard - Sanjeevani Hospital</title>
-
+ <link rel="icon" type="image/png" href="resources\logo1.png">
   <link rel="stylesheet" href="styles.css">
 
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -60,7 +63,7 @@ if ($conn->connect_error) {
 
                     $conn->query($sql);
 
-                    $_SESSION['patient_name'] = $name;
+                    
 
                     }
                     echo $name;
@@ -70,39 +73,11 @@ if ($conn->connect_error) {
         <p>Manage your appointments and view your medical records</p>
       </div>
 
+
+
+       
+
       <div class="stats-grid">
-        <div class="stat-card">
-          <i class="fas fa-calendar-check" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
-          <div class="stat-value" id="totalAppointments">
-            <?php
-              // Query to count appointments
-              $count_sql = "SELECT COUNT(*) AS total FROM Appointments WHERE patient_name='$name'";
-              $count_result = $conn->query($count_sql);
-              $count_row = $count_result->fetch_assoc();
-              echo $count_row['total'];
-            ?>
-          </div>
-          <div class="stat-label">Total Appointments</div>
-        </div>
-
-        <div class="stat-card">
-          <i class="fas fa-clock" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
-          <div class="stat-value" id="upcomingAppointments">
-            <?php
-                  $today = date("Y-m-d");
-
-              $sql_upcoming = "SELECT COUNT(*) AS upcoming_total FROM Appointments WHERE patient_name='$name' and appointment_date != '$today'";
-              $result_upcoming = $conn->query($sql_upcoming);
-              $row_upcoming = $result_upcoming->fetch_assoc();
-
-              $upcomnigAppointments = $row_upcoming['upcoming_total'];
-              echo $upcomnigAppointments;
-            ?>
-
-          </div>
-          <div class="stat-label">Upcoming Appointments</div>
-        </div>
-
         <div class="stat-card">
           <i class="fas fa-user-md" style="font-size: 2.5rem; margin-bottom: 1rem;"></i>
           <div class="stat-value">6+</div>
@@ -115,56 +90,12 @@ if ($conn->connect_error) {
           <div class="stat-label">Emergency Care</div>
         </div>
       </div>
-
-      <div style="display: grid; gap: 2rem; margin-top: 2rem;">
-        <div class="card">
-          <h2 style="margin-bottom: 1.5rem; color: var(--text-dark);">
-            <i class="fas fa-calendar-alt"></i> My Appointments
-          </h2>
-          <div class="table-container" style="padding: 0; box-shadow: none;">
-            <?php
-            // Query to get appointment details
-                  $sql = "SELECT patient_name, phone, doctor_name, appointment_date, appointment_time, disease
-                          FROM Appointments
-                          WHERE patient_name='$name'";
-
-                  $result = $conn->query($sql);
+      </div>
 
 
-                  echo "<table border='1' cellpadding='10' class='table'>";
-
-                  echo "<tr>
-                          <th>Patient Name</th>
-                          <th>Phone</th>
-                          <th>Doctor Name</th>
-                          <th>Appointment Date</th>
-                          <th>Appointment Time</th>
-                          <th>Disease</th>
-                        </tr>";
-
-                  while($row = $result->fetch_assoc()){
-
-                      echo "<tr>
-                              <td>".$row['patient_name']."</td>
-                              <td>".$row['phone']."</td>
-                              <td>".$row['doctor_name']."</td>
-                              <td>".$row['appointment_date']."</td>
-                              <td>".$row['appointment_time']."</td>
-                              <td>".$row['disease']."</td>
-                            </tr>";
-                  }
-
-                  echo "</table>";
-
-                  
-            ?>
-          </div>
-          <div style="margin-top: 1.5rem;">
-            <a href="book-appointment.html" class="btn btn-primary">
-              <i class="fas fa-plus"></i> Book New Appointment
-            </a>
-          </div>
-        </div>
+          
+         
+          
 
         <div class="card">
           <h2 style="margin-bottom: 1.5rem; color: var(--text-dark);">
