@@ -1,5 +1,8 @@
+echo "RUNNING THIS FILE"; exit;
+
 <?php
 include "config.php";
+include "send_email.php"; //  ADD THIS
 
 if($_SERVER["REQUEST_METHOD"] == "POST"){
 
@@ -9,8 +12,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $date         = $_POST['appointment_date'] ?? '';
     $time         = $_POST['appointment_time'] ?? '';
     $disease      = $_POST['disease'] ?? '';
+    $email        = $_POST['email'] ?? ''; //  NEW FIELD
 
-    if(empty($patient_name) || empty($phone) || empty($doctor_id) || empty($date) || empty($time) || empty($disease)){
+    //  UPDATED validation (added email)
+    if(empty($patient_name) || empty($phone) || empty($doctor_id) || empty($date) || empty($time) || empty($disease) || empty($email)){
         echo "⚠ All fields are required!";
         exit;
     }
@@ -52,12 +57,17 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
     // 4. Insert
     $insert_sql = "INSERT INTO appointments 
-    (patient_name, phone, doctor_id, doctor_name, appointment_date, appointment_time, disease)
+    (patient_name, phone, email, doctor_id, doctor_name, appointment_date, appointment_time, disease)
     VALUES
-    ('$patient_name','$phone','$doctor_id','$doctor_name','$date','$time','$disease')";
+    ('$patient_name','$phone', '$email', '$doctor_id','$doctor_name','$date','$time','$disease')";
 
     if($conn->query($insert_sql)){
+
+        //  SEND EMAIL (NEW CODE)
+        sendAppointmentEmail($email, $patient_name, $doctor_name, $date, $time);
+
         echo "✅ Appointment booked successfully";
+
     } else {
         echo "Error: " . $conn->error;
     }
